@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>程序猿社区 - 发布</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="css/community.css"/>
+    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">程序猿社区</span>
+            </button>
+            <a class="navbar-brand" href="/">程序猿社区</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="搜索话题">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" th:if="${session.user != null}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false" th:text="${session.user.getName()}"> <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">消息通知</a></li>
+                        <li><a href="#">个人中心</a></li>
+                        <li><a href="#">退出登录</a></li>
+                    </ul>
+                </li>
+<!--
+<li th:if="${session.user == null}">
+                    <a href="https://github.com/login/oauth/authorize?client_id=ed97a4311cccd75f014a&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a>
+                </li>
+-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid main" style="background-color: white">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h3><span class="glyphicon glyphicon-plus" aria-checked="true"></span>&nbsp发布</h3>
+            <hr>
+            <form action="/publish" method="post" >
+                <div class="form-group">
+                    <label for="title">帖子标题（简单扼要）：</label>
+                    <input type="text" class="form-control" name="title" id="title" th:value="${title}"  placeholder="问题标题......">
+                </div>
+                <div class="form-group">
+                    <label for="description">内容描述（必填  参照右侧提示）：</label>
+                    <textarea name="description" id="description" th:text="${description}" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">添加标签：</label>
+                    <input type="text" class="form-control" name="tag" id="tag" th:value="${tag}"  placeholder="添加问题标签，用中文分号隔开......">
+                </div>
+                <div class="container-fluid main">
+                    <div class="row">
+                        <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:text="${error}" th:if="${error != null}">
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn btn-success btn-publish">发布</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>帖子发起指南</h3>
+            • 帖子标题: <br>
+            请用精简的语言描述您发布的帖子，请不要超过25个中文<br>
+            &nbsp<br>
+            • 内容描述: <br>
+           详细补充您的帖子内容，确保内容描述清晰直观，并提供一些相关的资料<br>
+            &nbsp<br>
+            • 选择标签: <br>
+            选择一个或者多个合适的标签，用中文分号隔开，每个标签不超过10个中文<br>
+        </div>
+    </div>
+</div>
+</body>
+</html>
