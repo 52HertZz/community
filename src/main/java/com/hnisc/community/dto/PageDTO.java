@@ -31,9 +31,19 @@ public class PageDTO {
             totalPage = totalCount / size + 1;
         }
 
+        //防止前端页面显示的page超过合理范围
+        if(page < 1){
+            page = 1;
+        }
+        if(page > totalPage){
+            page = totalPage;
+        }
+
         this.page = page;
 
         pages.add(page);
+
+        //页面显示的页码为当前页的左右3个
         for (int i = 1; i <=3; i++) {
             if (page - i > 0){
                 pages.add(0,page - i);

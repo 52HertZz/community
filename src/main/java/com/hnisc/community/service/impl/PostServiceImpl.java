@@ -35,7 +35,7 @@ public class PostServiceImpl implements PostService {
         Integer totalCount = postMapper.count();
         pageDTO.setPage(totalCount,page,size);
 
-        //防止page超过合理范围
+        //防止传入数据库的page超过合理范围
         if(page < 1){
             page = 1;
         }
@@ -49,7 +49,6 @@ public class PostServiceImpl implements PostService {
         for (Post post : posts) {
             User user = userMapper.findByCreatorId(post.getCreatorId());
             PostDTO postDTO = new PostDTO();
-
             //通过spring内置的BeanUtils中的copyProperties方法将post的值覆盖postDTO
             BeanUtils.copyProperties(post,postDTO);
             //设置postDTO中user的值
