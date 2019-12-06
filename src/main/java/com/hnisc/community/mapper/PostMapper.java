@@ -22,7 +22,12 @@ public interface PostMapper {
             " (#{title},#{description},#{tag},#{gmtCreate},#{gmtModified},#{creatorId})")
     void inertPost(Post post);
 
-    //查询帖子内容
-    @Select("select * from ic_post")
-    List<Post> findPostList();
+    //分页查询帖子内容
+    @Select("select * from ic_post limit #{offset},#{size}")
+    List<Post> findPostList(Integer offset, Integer size);
+
+    //查询帖子总数
+    @Select("select count(1) from ic_post")
+    Integer count();
+
 }

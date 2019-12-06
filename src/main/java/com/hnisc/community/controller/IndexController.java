@@ -1,6 +1,6 @@
 package com.hnisc.community.controller;
 
-import com.hnisc.community.dto.PostDTO;
+import com.hnisc.community.dto.PageDTO;
 import com.hnisc.community.model.User;
 import com.hnisc.community.service.PostService;
 import com.hnisc.community.service.UserService;
@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 
 @Controller
@@ -23,10 +23,16 @@ public class IndexController {
     @Autowired
     private PostService postService;
 
-    //"/"表示默认页面为index
+    /**
+     *  "/"表示默认页面为index
+     *  page表示当前页 ，默认当前页为1
+     *  size表示每页显示的帖子条数，默认显示条数为7
+     */
     @GetMapping("/")
     public  String index(HttpServletRequest request,
-                         Model model) {
+                         Model model,
+                         @RequestParam(name = "page",defaultValue = "1") Integer page,
+                         @RequestParam(name = "size",defaultValue = "7") Integer size) {
         //通过request获取cookie
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0){
@@ -49,9 +55,9 @@ public class IndexController {
                 }
             }
         }
-        List<PostDTO> postList = postService.findPostList();
+        PageDTO pageDTO = postService.findPostList(page,size);
         //使用model将数据传入页面
-        model.addAttribute("postList",postList);
+        model.addAttribute("pageDTO",pageDTO);
         return "index";
     }
 }

@@ -68,7 +68,7 @@ public class AuthorizeController {
             String token = UUID.randomUUID().toString();
 
             user.setAccountId(String.valueOf(gitHubUser.getId()));
-            user.setAvatarUrl(gitHubUser.getAvatar_url());
+            user.setAvatarUrl(gitHubUser.getAvatarUrl());
             user.setName(gitHubUser.getName());
             user.setToken(token);
             user.setGmtCreate(System.currentTimeMillis());

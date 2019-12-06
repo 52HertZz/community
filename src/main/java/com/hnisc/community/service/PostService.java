@@ -1,5 +1,6 @@
 package com.hnisc.community.service;
 
+import com.hnisc.community.dto.PageDTO;
 import com.hnisc.community.dto.PostDTO;
 import com.hnisc.community.model.Post;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface PostService {
 
-    List<PostDTO> findPostList();
+    PageDTO findPostList(Integer page, Integer size);
 
     void inertPost(Post post);
 }

@@ -1,5 +1,6 @@
 package com.hnisc.community.service.impl;
 
+import com.hnisc.community.dto.PageDTO;
 import com.hnisc.community.dto.PostDTO;
 import com.hnisc.community.mapper.PostMapper;
 import com.hnisc.community.mapper.UserMapper;
@@ -27,11 +28,25 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public List<PostDTO> findPostList() {
-        List<Post> posts = postMapper.findPostList();
+    public PageDTO findPostList(Integer page,Integer size) {
+
+        PageDTO pageDTO = new PageDTO();
+        //帖子的总条数
+        Integer totalCount = postMapper.count();
+        pageDTO.setPage(totalCount,page,size);
+
+        //防止page超过合理范围
+        if(page < 1){
+            page = 1;
+        }
+        if(page > pageDTO.getTotalPage()){
+            page = pageDTO.getTotalPage();
+        }
+
+        Integer offset = size*(page - 1);
+        List<Post> posts = postMapper.findPostList(offset,size);
         List<PostDTO> postDTOList = new ArrayList<>();
         for (Post post : posts) {
-
             User user = userMapper.findByCreatorId(post.getCreatorId());
             PostDTO postDTO = new PostDTO();
 
@@ -42,7 +57,9 @@ public class PostServiceImpl implements PostService {
             //将postDTO添加到postDTOList中
             postDTOList.add(postDTO);
         }
-        return postDTOList;
+        //设置pageDTO中postDTOList的值
+        pageDTO.setPostDTOS(postDTOList);
+        return pageDTO;
     }
 
     @Override
