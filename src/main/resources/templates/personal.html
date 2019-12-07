@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="'程序猿社区 - '+${sectionName}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+
+<body>
+<div th:insert="head::head"></div>
+<div class="container-fluid main" style="background-color: white">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h3><span aria-checked="true" th:text="${sectionName}"></span></h3>
+            <hr>
+            <div class="media" th:each="postDTOS : ${pageDTO.postDTOS}">
+                <div class="media-left media-middle">
+                    <a href="#">
+                        <img class="media-object img-rounded" th:src="${postDTOS.user.avatarUrl}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${postDTOS.title}"></h4>
+                    <span class="text-desc"><span th:text="${postDTOS.viewCount}"></span>次浏览 •
+                        <span th:text="${postDTOS.commentCount}"></span>个评论 •
+                        <span th:text="${postDTOS.favoriteCount}"></span>次收藏 •
+                        <span th:text="${#dates.format(postDTOS.gmtCreate,'yyyy-MM-dd HH:mm')}" ></span>发布</span>
+                </div>
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li th:if="${pageDTO.showFirstPage}">
+                        <a th:href="@{'/personal/'+${section}(page=${1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pageDTO.showPrevious}">
+                        <a th:href="@{'/personal/'+${section}(page=${pageDTO.page - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:each="page : ${pageDTO.pages}" th:class="${pageDTO.page == page}? 'active':''">
+                        <a th:href="@{'/personal/'+${section}(page=${page})}" th:text="${page}"></a>
+                    </li>
+
+                    <li th:if="${pageDTO.showNext}">
+                        <a th:href="@{'/personal/'+${section}(page=${pageDTO.page + 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pageDTO.showEndPage}">
+                        <a th:href="@{'/personal/'+${section}(page=${pageDTO.totalPage})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 personal">
+            <h3><span class="glyphicon glyphicon-user"></span>&nbsp个人中心</h3>
+            <hr>
+            <div class="list-group section">
+                <a href="/personal/posts" th:class="${section == 'posts'}? 'active list-group-item':'list-group-item'">
+                    我的帖子
+                    <span class="badge">14</span>
+                </a>
+                <a href="/personal/reply" th:class="${section == 'reply'}? 'active list-group-item':'list-group-item'">最新回复</a>
+                <a href="/personal/collections" th:class="${section == 'collections'}? 'active list-group-item':'list-group-item'">我的收藏</a>
+                <a href="/personal/cancellation" th:class="${section == 'cancellation'}? 'active list-group-item':'list-group-item'">注销账号</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
