@@ -20,6 +20,9 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li th:if="${session.user != null}">
+                        <a href="#">通知</a>
+                    </li>
+                    <li th:if="${session.user != null}">
                         <a href="/publish">发帖</a>
                     </li>
                     <li class="dropdown" th:if="${session.user != null}">
@@ -29,9 +32,8 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">消息通知</a></li>
-                            <li><a href="#">个人中心</a></li>
-                            <li><a href="#">退出登录</a></li>
+                            <li><a href="/personal/posts">&nbsp;&nbsp;个人中心</a></li>
+                            <li><a href="#">&nbsp;&nbsp;退出登录</a></li>
                         </ul>
                     </li>
                     <li th:if="${session.user == null}">

@@ -14,4 +14,8 @@ public interface PostService {
     PageDTO findPostList(Integer page, Integer size);
 
     void inertPost(Post post);
+
+    PageDTO findPostListByUserId(Integer userId, Integer page, Integer size);
+
+    PostDTO findPostById(Integer id);
 }

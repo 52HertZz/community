@@ -15,6 +15,10 @@ import java.util.List;
 @Repository(value = "PostMapperImpl")
 public interface PostMapper {
 
+    //通过帖子id查询帖子内容
+    @Select("select * from ic_post where id = #{id}")
+    Post findPostById(Integer id) ;
+
     //保存帖子信息
     @Insert("insert into ic_post" +
             " (title,description,tag,gmt_create,gmt_modified,creator_id)" +
@@ -30,4 +34,10 @@ public interface PostMapper {
     @Select("select count(1) from ic_post")
     Integer count();
 
+    //通过发帖人id与用户id比较，分页查询帖子内容
+    @Select("select * from ic_post where creator_id = #{userId} limit #{offset},#{size}")
+    List<Post> findPostListByUserId(Integer userId, Integer offset, Integer size);
+
+    @Select("select count(1) from ic_post where creator_id = #{userId}")
+    Integer countByUserId(Integer userId);
 }

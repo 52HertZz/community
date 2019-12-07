@@ -10,7 +10,7 @@ import lombok.Data;
 public class Post {
     private Integer id;//帖子id
     private String title;//帖子标题
-    private String description;//帖子内容
+    private String description;//帖子描述
     private String tag;//帖子标签
     private Long gmtCreate;//帖子创建时间
     private Long gmtModified;//帖子修改时间

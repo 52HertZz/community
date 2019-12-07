@@ -53,10 +53,10 @@ public class AuthorizeController {
                                         HttpServletResponse response) throws IOException {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
 
-        accessTokenDTO.setClient_id(clientId);
-        accessTokenDTO.setClient_secret(clientSecret);
+        accessTokenDTO.setClientId(clientId);
+        accessTokenDTO.setClientSecret(clientSecret);
         accessTokenDTO.setCode(code);
-        accessTokenDTO.setRedirect_uri(redirectUri);
+        accessTokenDTO.setRedirectUri(redirectUri);
         accessTokenDTO.setState(state);
 
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
