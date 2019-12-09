@@ -19,15 +19,16 @@ public class SessionInterceptor implements HandlerInterceptor {
 
     @Autowired
     private UserService userService;
+
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         //通过request获取cookie
         Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0){
+        if (cookies != null && cookies.length != 0) {
             //for循环cookies，获取cookie的名称
             for (Cookie cookie : cookies) {
                 //判断cookie是否和数据库中的token相等
-                if (cookie.getName().equals("token")){
+                if (cookie.getName().equals("token")) {
                     String token = cookie.getValue();
                     //通过token获取user用户
                     User user = userService.findByToken(token);
@@ -36,8 +37,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     则表示数据库中存在该用户信息，用户直接登录
                     不相等则表示数据库中不存在用户，用户需要点击登录将数据存入数据库中
                      */
-                    if (user != null){
-                        request.getSession().setAttribute("user",user);
+                    if (user != null) {
+                        request.getSession().setAttribute("user", user);
                     }
                     break;
                 }

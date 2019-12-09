@@ -17,7 +17,7 @@ public interface PostMapper {
 
     //通过帖子id查询帖子内容
     @Select("select * from ic_post where id = #{id}")
-    Post findPostById(Integer id) ;
+    Post findPostById(Integer id);
 
     //保存帖子信息
     @Insert("insert into ic_post" +

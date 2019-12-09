@@ -29,40 +29,39 @@ public class PageDTO {
         pages.add(page);
 
         //页面显示的页码为当前页的左右3个
-        for (int i = 1; i <=3; i++) {
-            if (page - i > 0){
-                pages.add(0,page - i);
-            }
-            if (page + i <= totalPage){
+        for (int i = 1; i <= 3; i++) {
+            if (page - i > 0) {
+                pages.add(0, page - i);
+            } else if (page + i <= totalPage) {
                 pages.add(page + i);
             }
         }
 
         //是否展示到达到达上一页按钮
-        if (page == 1){
+        if (page == 1) {
             setShowPrevious(false);
-        }else {
+        } else {
             setShowPrevious(true);
         }
 
         //是否展示到达下一页按钮
-        if (page == totalPage){
-           setShowNext(false);
-        }else {
+        if (page == totalPage) {
+            setShowNext(false);
+        } else {
             setShowNext(true);
         }
 
         //是否展示到达第一页按钮
-        if (pages.contains(1)){
+        if (pages.contains(1)) {
             setShowFirstPage(false);
-        }else {
+        } else {
             setShowFirstPage(true);
         }
 
         //是否展示到达最后一页按钮
-        if (pages.contains(totalPage)){
+        if (pages.contains(totalPage)) {
             setShowEndPage(false);
-        }else {
+        } else {
             setShowEndPage(true);
         }
     }

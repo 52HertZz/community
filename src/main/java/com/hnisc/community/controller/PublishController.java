@@ -28,9 +28,10 @@ public class PublishController {
      */
 
     @GetMapping("/publish")
-    public String publish(){
+    public String publish() {
         return "publish";
     }
+
     /*
     用户发帖：
         包括帖子标题，内容，标签，发帖人id，创建时间和修改时间
@@ -41,27 +42,27 @@ public class PublishController {
             @RequestParam("description") String description,
             @RequestParam("tag") String tag,
             HttpServletRequest request,
-            Model model){
+            Model model) {
 
-        model.addAttribute("title",title);
-        model.addAttribute("description",description);
-        model.addAttribute("tag",tag);
+        model.addAttribute("title", title);
+        model.addAttribute("description", description);
+        model.addAttribute("tag", tag);
 
-        if(title == null || title == ""){
-            model.addAttribute("error","标题不能为空，请输入帖子标题......");
+        if (title == null || title == "") {
+            model.addAttribute("error", "标题不能为空，请输入帖子标题......");
             return "publish";
         }
-        if(description == null || description == ""){
-            model.addAttribute("error","内容不能为空，请输入帖子内容......");
+        if (description == null || description == "") {
+            model.addAttribute("error", "内容不能为空，请输入帖子内容......");
             return "publish";
         }
-        if(tag == null || tag == ""){
-            model.addAttribute("error","标签不能为空，请输入帖子标签......");
+        if (tag == null || tag == "") {
+            model.addAttribute("error", "标签不能为空，请输入帖子标签......");
             return "publish";
         }
 
         User user = (User) request.getSession().getAttribute("user");
-        if (user == null){
+        if (user == null) {
             return "redirect:/";
         }
         Post post = new Post();

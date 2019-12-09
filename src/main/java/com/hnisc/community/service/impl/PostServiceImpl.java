@@ -28,7 +28,7 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public PageDTO findPostList(Integer page,Integer size) {
+    public PageDTO findPostList(Integer page, Integer size) {
 
         PageDTO pageDTO = new PageDTO();
         //帖子的总条数
@@ -40,29 +40,31 @@ public class PostServiceImpl implements PostService {
          */
         Integer totalPage;
 
-        if(totalCount % size == 0){
+        if (totalCount % size == 0) {
             totalPage = totalCount / size;
-        }else {
+        } else {
             totalPage = totalCount / size + 1;
         }
         //防止传入数据库的page超过合理范围
-        if(page < 1){
+        if (page < 1) {
             page = 1;
-        }
-        if(page > totalPage){
+        } else if (page > totalPage) {
             page = totalPage;
         }
 
-        pageDTO.setPage(totalPage,page);
+        pageDTO.setPage(totalPage, page);
 
-        Integer offset = size*(page - 1);
-        List<Post> posts = postMapper.findPostList(offset,size);
+        Integer offset = size * (page - 1);
+        if (offset < 0) {
+            offset = 0;
+        }
+        List<Post> posts = postMapper.findPostList(offset, size);
         List<PostDTO> postDTOList = new ArrayList<>();
         for (Post post : posts) {
             User user = userMapper.findByCreatorId(post.getCreatorId());
             PostDTO postDTO = new PostDTO();
             //通过spring内置的BeanUtils中的copyProperties方法将post的值覆盖postDTO
-            BeanUtils.copyProperties(post,postDTO);
+            BeanUtils.copyProperties(post, postDTO);
             //设置postDTO中user的值
             postDTO.setUser(user);
             //将postDTO添加到postDTOList中
@@ -90,29 +92,31 @@ public class PostServiceImpl implements PostService {
          */
         Integer totalPage;
 
-        if(totalCount % size == 0){
+        if (totalCount % size == 0) {
             totalPage = totalCount / size;
-        }else {
+        } else {
             totalPage = totalCount / size + 1;
         }
         //防止传入数据库的page超过合理范围
-        if(page < 1){
+        if (page < 1) {
             page = 1;
-        }
-        if(page > totalPage){
+        } else if (page > totalPage) {
             page = totalPage;
         }
 
-        pageDTO.setPage(totalPage,page);
+        pageDTO.setPage(totalPage, page);
 
-        Integer offset = size*(page - 1);
-        List<Post> posts = postMapper.findPostListByUserId(userId,offset,size);
+        Integer offset = size * (page - 1);
+        if (offset < 0) {
+            offset = 0;
+        }
+        List<Post> posts = postMapper.findPostListByUserId(userId, offset, size);
         List<PostDTO> postDTOList = new ArrayList<>();
         for (Post post : posts) {
             User user = userMapper.findByCreatorId(post.getCreatorId());
             PostDTO postDTO = new PostDTO();
             //通过spring内置的BeanUtils中的copyProperties方法将post的值覆盖postDTO
-            BeanUtils.copyProperties(post,postDTO);
+            BeanUtils.copyProperties(post, postDTO);
             //设置postDTO中user的值
             postDTO.setUser(user);
             //将postDTO添加到postDTOList中
@@ -127,7 +131,7 @@ public class PostServiceImpl implements PostService {
     public PostDTO findPostById(Integer id) {
         Post post = postMapper.findPostById(id);
         PostDTO postDTO = new PostDTO();
-        BeanUtils.copyProperties(post,postDTO);
+        BeanUtils.copyProperties(post, postDTO);
         User user = userMapper.findByCreatorId(post.getCreatorId());
         postDTO.setUser(user);
         return postDTO;

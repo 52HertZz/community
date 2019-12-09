@@ -4,8 +4,6 @@ import com.hnisc.community.dto.PageDTO;
 import com.hnisc.community.dto.PostDTO;
 import com.hnisc.community.model.Post;
 
-import java.util.List;
-
 /**
  * @author lh141
  */

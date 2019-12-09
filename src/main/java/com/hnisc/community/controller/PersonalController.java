@@ -27,30 +27,30 @@ public class PersonalController {
     public String personal(@PathVariable(name = "action") String action,
                            Model model,
                            HttpServletRequest request,
-                           @RequestParam(name = "page",defaultValue = "1") Integer page,
-                           @RequestParam(name = "size",defaultValue = "5") Integer size){
+                           @RequestParam(name = "page", defaultValue = "1") Integer page,
+                           @RequestParam(name = "size", defaultValue = "5") Integer size) {
 
         User user = (User) request.getSession().getAttribute("user");
-        if (user == null){
+        if (user == null) {
             return "redirect:/";
         }
 
-        if ("posts".equals(action)){
-            model.addAttribute("section","posts");
-            model.addAttribute("sectionName","我的帖子");
-        } else if ("reply".equals(action)){
-            model.addAttribute("section","reply");
-            model.addAttribute("sectionName","最新回复");
-        }else if ("collections".equals(action)){
-            model.addAttribute("section","collections");
-            model.addAttribute("sectionName","我的收藏");
-        }else if ("cancellation".equals(action)){
-            model.addAttribute("section","cancellation");
-            model.addAttribute("sectionName","注销账号");
+        if ("posts".equals(action)) {
+            model.addAttribute("section", "posts");
+            model.addAttribute("sectionName", "我的帖子");
+        } else if ("reply".equals(action)) {
+            model.addAttribute("section", "reply");
+            model.addAttribute("sectionName", "最新回复");
+        } else if ("collections".equals(action)) {
+            model.addAttribute("section", "collections");
+            model.addAttribute("sectionName", "我的收藏");
+        } else if ("cancellation".equals(action)) {
+            model.addAttribute("section", "cancellation");
+            model.addAttribute("sectionName", "注销账号");
         }
 
         PageDTO pageDTO = postService.findPostListByUserId(user.getId(), page, size);
-        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("pageDTO", pageDTO);
         return "personal";
     }
 }

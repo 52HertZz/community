@@ -19,18 +19,17 @@ public class IndexController {
     private PostService postService;
 
     /**
-     *  "/"表示默认页面为index
-     *  page表示当前页 ，默认当前页为1
-     *  size表示每页显示的帖子条数，默认显示条数为5
+     * "/"表示默认页面为index
+     * page表示当前页 ，默认当前页为1
+     * size表示每页显示的帖子条数，默认显示条数为5
      */
     @GetMapping("/")
-    public  String index(Model model,
-                         @RequestParam(name = "page",defaultValue = "1") Integer page,
-                         @RequestParam(name = "size",defaultValue = "5") Integer size) {
-
-        PageDTO pageDTO = postService.findPostList(page,size);
+    public String index(Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "5") Integer size) {
+        PageDTO pageDTO = postService.findPostList(page, size);
         //使用model将数据传入页面
-        model.addAttribute("pageDTO",pageDTO);
+        model.addAttribute("pageDTO", pageDTO);
         return "index";
     }
 }
