@@ -2,9 +2,12 @@ package com.hnisc.community.service.impl;
 
 import com.hnisc.community.mapper.UserMapper;
 import com.hnisc.community.model.User;
+import com.hnisc.community.model.UserExample;
 import com.hnisc.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author lh141
@@ -16,27 +19,38 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User findByToken(String token) {
-        User user = userMapper.findByToken(token);
-        return user;
+    public List<User> selectByExample(String token) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andTokenEqualTo(token);
+        List<User> users = userMapper.selectByExample(userExample);
+
+        return users;
     }
 
     @Override
     public void createOrUpdateUser(User user) {
-        User dbUser = userMapper.findByAccountId(user.getAccountId());
 
-        if (dbUser == null) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+        List<User> users = userMapper.selectByExample(userExample);
+
+        if (users.size() == 0) {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtModified());
-            userMapper.inertUser(user);
-        } else if (dbUser != null) {
+            userMapper.insert(user);
+        } else {
+            User dbUser = users.get(0);
+            User updatUser = new User();
             //更新用户最新登录时间，用户头像，用户昵称，用户登录令牌
-            dbUser.setGmtModified(System.currentTimeMillis());
-            dbUser.setAvatarUrl(user.getAvatarUrl());
-            dbUser.setName(user.getName());
-            dbUser.setToken(user.getToken());
+            updatUser.setGmtModified(System.currentTimeMillis());
+            updatUser.setAvatarUrl(user.getAvatarUrl());
+            updatUser.setName(user.getName());
+            updatUser.setToken(user.getToken());
 
-            userMapper.updateUser(dbUser);
+            UserExample userExample1 = new UserExample();
+            userExample1.createCriteria().andIdEqualTo(dbUser.getId());
+
+            userMapper.updateByExampleSelective(updatUser, userExample1);
         }
     }
 }

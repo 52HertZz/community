@@ -5,8 +5,10 @@ import com.hnisc.community.dto.PostDTO;
 import com.hnisc.community.mapper.PostMapper;
 import com.hnisc.community.mapper.UserMapper;
 import com.hnisc.community.model.Post;
+import com.hnisc.community.model.PostExample;
 import com.hnisc.community.model.User;
 import com.hnisc.community.service.PostService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,12 +29,13 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostMapper postMapper;
 
+
     @Override
     public PageDTO findPostList(Integer page, Integer size) {
 
         PageDTO pageDTO = new PageDTO();
         //帖子的总条数
-        Integer totalCount = postMapper.count();
+        Integer totalCount =(int) postMapper.countByExample(new PostExample());
 
         /**
          * 如果帖子总条数取余每页显示条数为0，则总页数为帖总条数除以每页显示数
@@ -58,10 +61,10 @@ public class PostServiceImpl implements PostService {
         if (offset < 0) {
             offset = 0;
         }
-        List<Post> posts = postMapper.findPostList(offset, size);
+        List<Post> posts = postMapper.selectByExampleWithRowbounds(new PostExample(), new RowBounds(offset,size));
         List<PostDTO> postDTOList = new ArrayList<>();
         for (Post post : posts) {
-            User user = userMapper.findByCreatorId(post.getCreatorId());
+            User user = userMapper.selectByPrimaryKey(post.getCreatorId());
             PostDTO postDTO = new PostDTO();
             //通过spring内置的BeanUtils中的copyProperties方法将post的值覆盖postDTO
             BeanUtils.copyProperties(post, postDTO);
@@ -76,15 +79,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void inertPost(Post post) {
-        postMapper.inertPost(post);
-    }
-
-    @Override
     public PageDTO findPostListByUserId(Integer userId, Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
         //帖子的总条数
-        Integer totalCount = postMapper.countByUserId(userId);
+        PostExample postExample = new PostExample();
+        postExample.createCriteria().andCreatorIdEqualTo(userId);
+        Integer totalCount =(int) postMapper.countByExample(postExample);
 
         /**
          * 如果帖子总条数取余每页显示条数为0，则总页数为帖总条数除以每页显示数
@@ -110,10 +110,13 @@ public class PostServiceImpl implements PostService {
         if (offset < 0) {
             offset = 0;
         }
-        List<Post> posts = postMapper.findPostListByUserId(userId, offset, size);
+        PostExample postExample1 = new PostExample();
+        postExample1.createCriteria().andCreatorIdEqualTo(userId);
+        List<Post> posts = postMapper.selectByExampleWithRowbounds(postExample1, new RowBounds(offset,size));
+
         List<PostDTO> postDTOList = new ArrayList<>();
         for (Post post : posts) {
-            User user = userMapper.findByCreatorId(post.getCreatorId());
+            User user = userMapper.selectByPrimaryKey(post.getCreatorId());
             PostDTO postDTO = new PostDTO();
             //通过spring内置的BeanUtils中的copyProperties方法将post的值覆盖postDTO
             BeanUtils.copyProperties(post, postDTO);
@@ -129,11 +132,33 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO findPostById(Integer id) {
-        Post post = postMapper.findPostById(id);
+        Post post = postMapper.selectByPrimaryKey(id);
         PostDTO postDTO = new PostDTO();
         BeanUtils.copyProperties(post, postDTO);
-        User user = userMapper.findByCreatorId(post.getCreatorId());
+        User user = userMapper.selectByPrimaryKey(post.getCreatorId());
         postDTO.setUser(user);
         return postDTO;
+    }
+
+    @Override
+    public void createOrUpdatePost(Post post) {
+
+        if (post.getId() == null) {
+            post.setGmtCreate(System.currentTimeMillis());
+            post.setGmtModified(post.getGmtCreate());
+            postMapper.insert(post);
+        } else {
+            Post updatePost = new Post();
+
+            updatePost.setTitle(post.getTitle());
+            updatePost.setDescription(post.getDescription());
+            updatePost.setTag(post.getTag());
+            updatePost.setGmtModified(System.currentTimeMillis());
+
+            PostExample postExample = new PostExample();
+
+            postExample.createCriteria().andIdEqualTo(post.getId());
+            postMapper.updateByExampleSelective(updatePost, postExample);
+        }
     }
 }
