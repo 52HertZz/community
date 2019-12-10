@@ -2,6 +2,8 @@ package com.hnisc.community.service.impl;
 
 import com.hnisc.community.dto.PageDTO;
 import com.hnisc.community.dto.PostDTO;
+import com.hnisc.community.exception.GeneralErrorCodeImpl;
+import com.hnisc.community.exception.GeneralException;
 import com.hnisc.community.mapper.PostMapper;
 import com.hnisc.community.mapper.UserMapper;
 import com.hnisc.community.model.Post;
@@ -35,7 +37,7 @@ public class PostServiceImpl implements PostService {
 
         PageDTO pageDTO = new PageDTO();
         //帖子的总条数
-        Integer totalCount =(int) postMapper.countByExample(new PostExample());
+        Integer totalCount = (int) postMapper.countByExample(new PostExample());
 
         /**
          * 如果帖子总条数取余每页显示条数为0，则总页数为帖总条数除以每页显示数
@@ -61,7 +63,7 @@ public class PostServiceImpl implements PostService {
         if (offset < 0) {
             offset = 0;
         }
-        List<Post> posts = postMapper.selectByExampleWithRowbounds(new PostExample(), new RowBounds(offset,size));
+        List<Post> posts = postMapper.selectByExampleWithRowbounds(new PostExample(), new RowBounds(offset, size));
         List<PostDTO> postDTOList = new ArrayList<>();
         for (Post post : posts) {
             User user = userMapper.selectByPrimaryKey(post.getCreatorId());
@@ -84,7 +86,7 @@ public class PostServiceImpl implements PostService {
         //帖子的总条数
         PostExample postExample = new PostExample();
         postExample.createCriteria().andCreatorIdEqualTo(userId);
-        Integer totalCount =(int) postMapper.countByExample(postExample);
+        Integer totalCount = (int) postMapper.countByExample(postExample);
 
         /**
          * 如果帖子总条数取余每页显示条数为0，则总页数为帖总条数除以每页显示数
@@ -112,7 +114,7 @@ public class PostServiceImpl implements PostService {
         }
         PostExample postExample1 = new PostExample();
         postExample1.createCriteria().andCreatorIdEqualTo(userId);
-        List<Post> posts = postMapper.selectByExampleWithRowbounds(postExample1, new RowBounds(offset,size));
+        List<Post> posts = postMapper.selectByExampleWithRowbounds(postExample1, new RowBounds(offset, size));
 
         List<PostDTO> postDTOList = new ArrayList<>();
         for (Post post : posts) {
@@ -133,6 +135,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDTO findPostById(Integer id) {
         Post post = postMapper.selectByPrimaryKey(id);
+        //判断传来的帖子id是否存在
+        if (post == null) {
+            throw new GeneralException(GeneralErrorCodeImpl.POST_NOT_FOUND);
+        }
         PostDTO postDTO = new PostDTO();
         BeanUtils.copyProperties(post, postDTO);
         User user = userMapper.selectByPrimaryKey(post.getCreatorId());
@@ -158,7 +164,11 @@ public class PostServiceImpl implements PostService {
             PostExample postExample = new PostExample();
 
             postExample.createCriteria().andIdEqualTo(post.getId());
-            postMapper.updateByExampleSelective(updatePost, postExample);
+            int updateByExampleSelective = postMapper.updateByExampleSelective(updatePost, postExample);
+            //判断帖子是否已经更新
+            if (updateByExampleSelective != 1) {
+                throw new GeneralException(GeneralErrorCodeImpl.POST_NOT_FOUND);
+            }
         }
     }
 }
