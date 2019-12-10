@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author lh141
+ * 异常处理
  */
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")

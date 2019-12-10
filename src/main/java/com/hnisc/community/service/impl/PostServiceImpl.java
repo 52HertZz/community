@@ -5,6 +5,7 @@ import com.hnisc.community.dto.PostDTO;
 import com.hnisc.community.exception.GeneralErrorCodeImpl;
 import com.hnisc.community.exception.GeneralException;
 import com.hnisc.community.mapper.PostMapper;
+import com.hnisc.community.mapper.PostMapperExample;
 import com.hnisc.community.mapper.UserMapper;
 import com.hnisc.community.model.Post;
 import com.hnisc.community.model.PostExample;
@@ -30,6 +31,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostMapper postMapper;
+
+    @Autowired
+    private PostMapperExample postMapperExample;
 
 
     @Override
@@ -152,7 +156,7 @@ public class PostServiceImpl implements PostService {
         if (post.getId() == null) {
             post.setGmtCreate(System.currentTimeMillis());
             post.setGmtModified(post.getGmtCreate());
-            postMapper.insert(post);
+            postMapperExample.insert(post);
         } else {
             Post updatePost = new Post();
 
@@ -170,5 +174,14 @@ public class PostServiceImpl implements PostService {
                 throw new GeneralException(GeneralErrorCodeImpl.POST_NOT_FOUND);
             }
         }
+    }
+
+    //实现浏览数的累加
+    @Override
+    public void incViewCount(Integer id) {
+        Post post = new Post();
+        post.setId(id);
+        post.setViewCount(1);
+        postMapperExample.incViewCount(post);
     }
 }

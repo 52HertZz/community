@@ -22,6 +22,9 @@ public class PostController {
     public String post(@PathVariable(name = "id") Integer id,
                        Model model) {
         PostDTO postDTO = postService.findPostById(id);
+        //实现浏览数的累加
+        postService.incViewCount(id);
+
         model.addAttribute("postDTO", postDTO);
         return "post";
     }

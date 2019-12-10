@@ -16,4 +16,6 @@ public interface PostService {
     PostDTO findPostById(Integer id);
 
     void createOrUpdatePost(Post post);
+
+    void incViewCount(Integer id);
 }
