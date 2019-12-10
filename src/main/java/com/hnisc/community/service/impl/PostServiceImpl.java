@@ -4,9 +4,7 @@ import com.hnisc.community.dto.PageDTO;
 import com.hnisc.community.dto.PostDTO;
 import com.hnisc.community.exception.GeneralErrorCodeImpl;
 import com.hnisc.community.exception.GeneralException;
-import com.hnisc.community.mapper.PostMapper;
 import com.hnisc.community.mapper.PostMapperExample;
-import com.hnisc.community.mapper.UserMapper;
 import com.hnisc.community.model.Post;
 import com.hnisc.community.model.PostExample;
 import com.hnisc.community.model.User;
@@ -85,7 +83,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PageDTO findPostListByUserId(Integer userId, Integer page, Integer size) {
+    public PageDTO findPostListByUserId(Long userId, Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
         //帖子的总条数
         PostExample postExample = new PostExample();
@@ -137,7 +135,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO findPostById(Integer id) {
+    public PostDTO findPostById(Long id) {
         Post post = postMapper.selectByPrimaryKey(id);
         //判断传来的帖子id是否存在
         if (post == null) {
@@ -155,7 +153,7 @@ public class PostServiceImpl implements PostService {
 
         if (post.getId() == null) {
             post.setGmtCreate(System.currentTimeMillis());
-            post.setGmtModified(post.getGmtCreate());
+            post.setGmtModified(System.currentTimeMillis());
             postMapperExample.insert(post);
         } else {
             Post updatePost = new Post();
@@ -178,7 +176,7 @@ public class PostServiceImpl implements PostService {
 
     //实现浏览数的累加
     @Override
-    public void incViewCount(Integer id) {
+    public void incViewCount(Long id) {
         Post post = new Post();
         post.setId(id);
         post.setViewCount(1);

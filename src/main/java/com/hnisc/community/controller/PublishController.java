@@ -37,7 +37,7 @@ public class PublishController {
     编辑修改页面
      */
     @GetMapping("/publish/{id}")
-    public String update(@PathVariable(name = "id") Integer id,
+    public String update(@PathVariable(name = "id") Long id,
                          Model model) {
         PostDTO postDTO = postService.findPostById(id);
 
@@ -57,7 +57,7 @@ public class PublishController {
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("tag") String tag,
-            @RequestParam("id") Integer id,
+            @RequestParam("id") Long id,
             HttpServletRequest request,
             Model model) {
 
@@ -83,11 +83,11 @@ public class PublishController {
             return "redirect:/";
         }
         Post post = new Post();
+        post.setId(id);
         post.setTitle(title);
         post.setDescription(description);
         post.setTag(tag);
         post.setCreatorId(user.getId());
-        post.setId(id);
 
         postService.createOrUpdatePost(post);
         //发布成功，返回index页面

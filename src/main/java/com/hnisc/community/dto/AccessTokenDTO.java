@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * @author lh141
+ * 访问令牌
  */
 @Data
 public class AccessTokenDTO {

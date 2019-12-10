@@ -24,7 +24,7 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="mapper" targetProject="src\main\resources">
+        <sqlMapGenerator targetPackage="com.hnisc.community.mapper" targetProject="src\main\resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
@@ -35,5 +35,6 @@
 
         <table tableName="ic_user" domainObjectName="User"></table>
         <table tableName="ic_post" domainObjectName="Post"></table>
+        <table tableName="ic_comment" domainObjectName="Comment"></table>
     </context>
 </generatorConfiguration>

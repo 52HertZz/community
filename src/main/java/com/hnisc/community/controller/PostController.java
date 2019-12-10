@@ -19,7 +19,7 @@ public class PostController {
     private PostService postService;
 
     @GetMapping("/post/{id}")
-    public String post(@PathVariable(name = "id") Integer id,
+    public String post(@PathVariable(name = "id") Long id,
                        Model model) {
         PostDTO postDTO = postService.findPostById(id);
         //实现浏览数的累加

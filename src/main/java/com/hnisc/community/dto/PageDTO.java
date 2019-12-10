@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * @author lh141
+ * 前端分页显示
  */
-//前端分页显示
 @Data
 public class PageDTO {
     private List<PostDTO> postDTOS;//问题信息

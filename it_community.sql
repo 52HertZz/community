@@ -48,7 +48,7 @@ CREATE TABLE `ic_user`  (
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名',
   `token` char(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户登录令牌',
   `gmt_create` bigint(20) NULL DEFAULT NULL COMMENT '用户创建时间',
-  `gmt_modified` bigint(20) NULL DEFAULT NULL COMMENT '用户修改时间',
+  `gmt_modified` bigint(20) NULL DEFAULT NULL COMMENT '用户最新登录时间',
   `bio` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;

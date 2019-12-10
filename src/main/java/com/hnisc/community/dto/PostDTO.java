@@ -5,10 +5,11 @@ import lombok.Data;
 
 /**
  * @author lh141
+ * 帖子
  */
 @Data
 public class PostDTO {
-    private Integer id;//帖子id
+    private Long id;//帖子id
     private String title;//帖子标题
     private String description;//帖子描述
     private String tag;//帖子标签
@@ -20,5 +21,5 @@ public class PostDTO {
     private Integer commentCount;//评论数
     private Integer favoriteCount;//收藏数
     private Integer viewCount;//浏览数
-    private User user;
+    private User user;//用户信息
 }

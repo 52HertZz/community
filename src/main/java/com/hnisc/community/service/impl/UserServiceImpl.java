@@ -1,6 +1,5 @@
 package com.hnisc.community.service.impl;
 
-import com.hnisc.community.mapper.UserMapper;
 import com.hnisc.community.model.User;
 import com.hnisc.community.model.UserExample;
 import com.hnisc.community.service.UserService;
@@ -36,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
         if (users.size() == 0) {
             user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtModified());
+            user.setGmtModified(System.currentTimeMillis());
             userMapper.insert(user);
         } else {
             User dbUser = users.get(0);

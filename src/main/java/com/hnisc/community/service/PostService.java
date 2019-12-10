@@ -11,11 +11,11 @@ public interface PostService {
 
     PageDTO findPostList(Integer page, Integer size);
 
-    PageDTO findPostListByUserId(Integer userId, Integer page, Integer size);
+    PageDTO findPostListByUserId(Long userId, Integer page, Integer size);
 
-    PostDTO findPostById(Integer id);
+    PostDTO findPostById(Long id);
 
     void createOrUpdatePost(Post post);
 
-    void incViewCount(Integer id);
+    void incViewCount(Long id);
 }
