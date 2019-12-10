@@ -1,5 +1,6 @@
 package com.hnisc.community.service.impl;
 
+import com.hnisc.community.mapper.CommentMapper;
 import com.hnisc.community.mapper.CommentMapperExample;
 import com.hnisc.community.model.Comment;
 import com.hnisc.community.service.CommentService;

@@ -1,5 +1,6 @@
 package com.hnisc.community.service.impl;
 
+import com.hnisc.community.mapper.UserMapper;
 import com.hnisc.community.model.User;
 import com.hnisc.community.model.UserExample;
 import com.hnisc.community.service.UserService;
