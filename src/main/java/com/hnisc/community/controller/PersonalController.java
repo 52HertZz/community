@@ -22,7 +22,9 @@ public class PersonalController {
     @Autowired
     private PostService postService;
 
-    //动态切换个人中心中的子页面
+    /**
+     *  动态切换个人中心中的子页面
+     */
     @GetMapping("/personal/{action}")
     public String personal(@PathVariable(name = "action") String action,
                            Model model,

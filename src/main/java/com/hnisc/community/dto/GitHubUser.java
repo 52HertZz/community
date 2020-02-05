@@ -10,6 +10,5 @@ import lombok.Data;
 public class GitHubUser {
     private String name;
     private Long id;
-    private String bio;//描述
     private  String avatarUrl;
 }

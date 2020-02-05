@@ -11,14 +11,22 @@ import java.util.List;
  */
 @Data
 public class PageDTO {
-    private List<PostDTO> postDTOS;//问题信息
-    private boolean showPrevious;//展示到达上一页按钮
-    private boolean showFirstPage;//展示到达第一页按钮
-    private boolean showNext;//展示到达下一页按钮
-    private boolean showEndPage;//展示到达最后一页按钮
-    private Integer page;//当前页码
-    private List<Integer> pages = new ArrayList<>();//展示的页码
-    private Integer totalPage;//总页数
+    //问题信息
+    private List<PostDTO> postDTOS;
+    //展示到达上一页按钮
+    private Boolean showPrevious;
+    //展示到达第一页按钮
+    private Boolean showFirstPage;
+    //展示到达下一页按钮
+    private Boolean showNext;
+    //展示到达最后一页按钮
+    private Boolean showEndPage;
+    //当前页码
+    private Integer page;
+    //展示的页码
+    private List<Integer> pages = new ArrayList<>();
+    //总页数
+    private Integer totalPage;
 
     public void setPage(Integer totalPage, Integer page) {
 
@@ -45,7 +53,7 @@ public class PageDTO {
         }
 
         //是否展示到达下一页按钮
-        if (page == totalPage) {
+        if (page.equals(totalPage)) {
             setShowNext(false);
         } else {
             setShowNext(true);

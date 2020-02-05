@@ -8,7 +8,10 @@ import lombok.Data;
  */
 @Data
 public class CommentDTO {
-    private Long parentId;//父类id
-    private String description;//回复描述
-    private Integer parentType;//父类类型
+    //父类id
+    private Long parentId;
+    //回复描述
+    private String description;
+    //父类类型
+    private Integer parentType;
 }

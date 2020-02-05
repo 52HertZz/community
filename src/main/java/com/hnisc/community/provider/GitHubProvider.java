@@ -27,9 +27,7 @@ public class GitHubProvider {
             String string = response.body().string();
             String token = string.split("&")[0].split("=")[1];
             return token;
-        } catch (Exception e) {
-//            log.error("getAccessToken error,{}", accessTokenDTO, e);
-        }
+        } catch (Exception e) { }
         return null;
     }
 
@@ -43,9 +41,7 @@ public class GitHubProvider {
             String string = response.body().string();
             GitHubUser githubUser = JSON.parseObject(string, GitHubUser.class);
             return githubUser;
-        } catch (Exception e) {
-//            log.error("getUser error,{}", accessToken, e);
-        }
+        } catch (Exception e) { }
         return null;
     }
 

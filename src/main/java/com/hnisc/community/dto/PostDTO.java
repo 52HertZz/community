@@ -9,17 +9,30 @@ import lombok.Data;
  */
 @Data
 public class PostDTO {
-    private Long id;//帖子id
-    private String title;//帖子标题
-    private String description;//帖子描述
-    private String tag;//帖子标签
-    private Long gmtCreate;//帖子创建时间
-    private Long gmtModified;//帖子修改时间
-    private Integer creatorId;//发帖人id
-    private Integer likeCount;//点赞数
-    private Integer dislikeCount;//点踩数
-    private Integer commentCount;//评论数
-    private Integer favoriteCount;//收藏数
-    private Integer viewCount;//浏览数
-    private User user;//用户信息
+    //帖子id
+    private Long id;
+    //帖子标题
+    private String title;
+    //帖子描述
+    private String description;
+    //帖子标签
+    private String tag;
+    //帖子创建时间
+    private Long gmtCreate;
+    //帖子修改时间
+    private Long gmtModified;
+    //发帖人id
+    private Integer creatorId;
+    //点赞数
+    private Integer likeCount;
+    //点踩数
+    private Integer dislikeCount;
+    //评论数
+    private Integer commentCount;
+    //收藏数
+    private Integer favoriteCount;
+    //浏览数
+    private Integer viewCount;
+    //用户信息
+    private User user;
 }

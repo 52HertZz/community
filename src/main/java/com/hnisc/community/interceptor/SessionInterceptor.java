@@ -29,7 +29,7 @@ public class SessionInterceptor implements HandlerInterceptor {
             //for循环cookies，获取cookie的名称
             for (Cookie cookie : cookies) {
                 //判断cookie是否和数据库中的token相等
-                if (cookie.getName().equals("token")) {
+                if ("token".equals(cookie.getName())) {
                     String token = cookie.getValue();
                     //通过token获取user用户
                     List<User> users = userService.selectByExample(token);

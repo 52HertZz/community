@@ -24,17 +24,22 @@ public class PublishController {
     @Autowired
     private PostService postService;
 
-    /*
-    GetMapping负责页面跳转
-    PostMapping负责数据传输
+    /**
+     * GetMapping负责页面跳转
+     * PostMapping负责数据传输
+     * @return
      */
+
     @GetMapping("/publish")
     public String publish() {
         return "publish";
     }
 
-    /*
-    编辑修改页面
+    /**
+     * 编辑修改页面
+     * @param id
+     * @param model
+     * @return
      */
     @GetMapping("/publish/{id}")
     public String update(@PathVariable(name = "id") Long id,
@@ -48,9 +53,16 @@ public class PublishController {
         return "publish";
     }
 
-    /*
-    用户发帖：
-        包括帖子标题，内容，标签，发帖人id，创建时间和修改时间
+    /**
+     * 用户发帖：
+     * 包括帖子标题，内容，标签，发帖人id，创建时间和修改时间
+     * @param title
+     * @param description
+     * @param tag
+     * @param id
+     * @param request
+     * @param model
+     * @return
      */
     @PostMapping("/publish")
     public String doPublish(

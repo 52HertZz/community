@@ -176,7 +176,9 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-    //实现浏览数的累加
+    /**
+     *  实现浏览数的累加
+     */
     @Override
     public void incViewCount(Long id) {
         Post post = new Post();
